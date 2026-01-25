@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/stock")
 public class StockController {
@@ -29,13 +31,13 @@ public class StockController {
         }
     }
 
-    // ✅ REDUCE stock
+    // REDUCE stock
     @PutMapping("/reduce/{medicineId}")
     public ResponseEntity<?> reduceStock(@PathVariable Long medicineId,
                                          @RequestParam int quantity) {
         try {
-            service.reduceStock(medicineId, quantity);
-            return ResponseEntity.ok("Stock reduced successfully");
+            Map<String, Object> response = service.reduceStock(medicineId, quantity);
+            return ResponseEntity.ok(response); //JSON returned ONLY on success
         } catch (ApiException e) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)

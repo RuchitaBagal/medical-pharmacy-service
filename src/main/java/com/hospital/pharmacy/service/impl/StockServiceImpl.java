@@ -8,6 +8,9 @@ import com.hospital.pharmacy.repository.StockRepository;
 import com.hospital.pharmacy.service.StockService;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class StockServiceImpl implements StockService {
 
@@ -35,8 +38,9 @@ public class StockServiceImpl implements StockService {
         return stockRepository.save(stock);
     }
 
+    // 🔥 UPDATED METHOD
     @Override
-    public void reduceStock(Long medicineId, int quantity) {
+    public Map<String, Object> reduceStock(Long medicineId, int quantity) {
 
         Stock stock = stockRepository.findByMedicine_MedicineId(medicineId)
                 .orElseThrow(() -> new ApiException("No stock found for this medicine"));
@@ -49,7 +53,18 @@ public class StockServiceImpl implements StockService {
             throw new ApiException("Insufficient stock available");
         }
 
+        // reduce stock
         stock.setQuantity(stock.getQuantity() - quantity);
         stockRepository.save(stock);
+
+        Medicine medicine = stock.getMedicine();
+
+        // Result for Billing Microservice
+        Map<String, Object> res = new HashMap<>();
+        res.put("name", medicine.getName());
+        res.put("price", medicine.getPrice());
+        res.put("quantity", quantity);
+
+        return res;
     }
 }
