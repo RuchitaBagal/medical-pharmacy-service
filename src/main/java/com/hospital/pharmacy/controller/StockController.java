@@ -18,7 +18,7 @@ public class StockController {
         this.service = service;
     }
 
-    // ✅ ADD stock
+    // ADD stock
     @PostMapping("/{medicineId}")
     public ResponseEntity<?> addStock(@PathVariable Long medicineId,
                                       @RequestParam int quantity) {

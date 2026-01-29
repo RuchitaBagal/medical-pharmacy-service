@@ -4,6 +4,8 @@ import com.hospital.pharmacy.entity.Medicine;
 import com.hospital.pharmacy.exception.ApiException;
 import com.hospital.pharmacy.repository.MedicineRepository;
 import com.hospital.pharmacy.service.MedicineService;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,7 @@ public class MedicineServiceImpl implements MedicineService {
         this.repository = repository;
     }
 
+    //@PreAuthorize("hasRole('PHARMACIST')")
     @Override
     public Medicine addMedicine(Medicine medicine) {
 

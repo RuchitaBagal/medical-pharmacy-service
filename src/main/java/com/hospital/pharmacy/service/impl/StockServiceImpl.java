@@ -6,6 +6,8 @@ import com.hospital.pharmacy.exception.ApiException;
 import com.hospital.pharmacy.repository.MedicineRepository;
 import com.hospital.pharmacy.repository.StockRepository;
 import com.hospital.pharmacy.service.StockService;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -23,6 +25,7 @@ public class StockServiceImpl implements StockService {
         this.medicineRepository = medicineRepository;
     }
 
+    //@PreAuthorize("hasRole('PHARMACIST')")
     @Override
     public Stock addStock(Long medicineId, int quantity) {
 
@@ -38,7 +41,8 @@ public class StockServiceImpl implements StockService {
         return stockRepository.save(stock);
     }
 
-    // 🔥 UPDATED METHOD
+    // UPDATED METHOD
+    //@PreAuthorize("hasRole('PHARMACIST')")
     @Override
     public Map<String, Object> reduceStock(Long medicineId, int quantity) {
 
@@ -59,7 +63,7 @@ public class StockServiceImpl implements StockService {
 
         Medicine medicine = stock.getMedicine();
 
-        // Result for Billing Microservice
+        
         Map<String, Object> res = new HashMap<>();
         res.put("name", medicine.getName());
         res.put("price", medicine.getPrice());
