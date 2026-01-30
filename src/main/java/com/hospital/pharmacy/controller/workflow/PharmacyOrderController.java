@@ -16,14 +16,11 @@ public class PharmacyOrderController {
     }
 
     @PostMapping("/process/{prescriptionId}")
-    //@PreAuthorize("hasRole('PHARMACIST')")
+    @PreAuthorize("hasRole('PHARMACIST')")
     public ResponseEntity<String> processPrescription(
             @PathVariable Long prescriptionId
-           //, @RequestHeader("Authorization") String token
-            ) {
-
-       // service.processPrescription(prescriptionId, token);
-    	service.processPrescription(prescriptionId, null);
+    ) {
+        service.processPrescription(prescriptionId, null);
         return ResponseEntity.ok("Prescription processed successfully");
     }
 }

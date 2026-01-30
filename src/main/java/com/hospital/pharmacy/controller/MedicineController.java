@@ -5,6 +5,7 @@ import com.hospital.pharmacy.exception.ApiException;
 import com.hospital.pharmacy.service.MedicineService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class MedicineController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('PHARMACIST')")
     public ResponseEntity<?> add(@RequestBody Medicine medicine) {
         try {
             return ResponseEntity.ok(service.addMedicine(medicine));
@@ -31,7 +33,15 @@ public class MedicineController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('PHARMACIST')")
     public List<Medicine> getAll() {
         return service.getAllMedicines();
     }
+    
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('PHARMACIST')")
+    public Medicine getById(@PathVariable Long id) {
+        return service.getMedicineById(id);
+    }
+
 }

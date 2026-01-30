@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.List;
 
 @Component
 public class JwtUtil {
@@ -17,6 +15,7 @@ public class JwtUtil {
     private String secret;
 
     private Key getSigningKey() {
+        // IMPORTANT: do NOT base64 decode — use raw bytes
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
@@ -32,21 +31,12 @@ public class JwtUtil {
         return extractAllClaims(token).getSubject();
     }
 
-    @SuppressWarnings("unchecked")
-    public List<String> extractRoles(String token) {
-        return extractAllClaims(token).get("roles", List.class);
-    }
-
-    public boolean isTokenExpired(String token) {
-        Date exp = extractAllClaims(token).getExpiration();
-        return exp.before(new Date());
-    }
-
     public boolean validateToken(String token) {
         try {
             extractAllClaims(token);
-            return !isTokenExpired(token);
+            return true;
         } catch (Exception e) {
+            System.out.println("JWT validation failed: " + e.getMessage());
             return false;
         }
     }
