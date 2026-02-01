@@ -25,7 +25,7 @@ public class StockServiceImpl implements StockService {
         this.medicineRepository = medicineRepository;
     }
 
-    //@PreAuthorize("hasRole('PHARMACIST')")
+    
     @Override
     public Stock addStock(Long medicineId, int quantity) {
 
@@ -41,8 +41,7 @@ public class StockServiceImpl implements StockService {
         return stockRepository.save(stock);
     }
 
-    // UPDATED METHOD
-    //@PreAuthorize("hasRole('PHARMACIST')")
+    // UPDATED METHOD FOR REDUCING STOCKs
     @Override
     public Map<String, Object> reduceStock(Long medicineId, int quantity) {
 

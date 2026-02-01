@@ -15,7 +15,7 @@ public class JwtUtil {
     private String secret;
 
     private Key getSigningKey() {
-        // IMPORTANT: do NOT base64 decode — use raw bytes
+        
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 

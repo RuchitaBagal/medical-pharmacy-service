@@ -48,7 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         List<String> roles = claims.get("roles", List.class);
 
-        // ✅ DO NOT ADD PREFIX — token already has ROLE_
+        // DO NOT ADD PREFIX — token already has ROLE_
         var authorities = roles.stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());

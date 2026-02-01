@@ -19,7 +19,7 @@ public class MedicineServiceImpl implements MedicineService {
         this.repository = repository;
     }
 
-    //@PreAuthorize("hasRole('PHARMACIST')")
+  
     @Override
     public Medicine addMedicine(Medicine medicine) {
 
